@@ -63,7 +63,9 @@ function start (){
       wins++;
       return false;
   } else {
-
+    chooseword();
+    returnblanks();
+    alphabetdisplay();
     document.getElementById('gameStart').innerHTML= "Try to guess the word! You have " + remainingguesses + " guesses remaining!";
     document.getElementById('Letters').innerHTML = alphabet.join(" ").toUpperCase();
 
@@ -172,18 +174,17 @@ function picture (){
 
 
 
-startvar= start();
-if (startvar=true){
-    chooseword();
-  };
 
-
-console.log(word);
 
 document.onkeyup = function (event){
+  startvar= start();
+  if (startvar=true){
   userguess=event.key;
+  compare();
   console.log(userguess);
-}
+  console.log(word);
+  };
+};
 
 
 
