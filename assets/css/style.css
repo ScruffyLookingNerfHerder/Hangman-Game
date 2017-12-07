@@ -1,0 +1,4 @@
+.WordSpace li{
+  list-style: none;
+  display: inline;
+}
