@@ -1,259 +1,230 @@
-
-
-
-var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var allletters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var secretwords = ["Gandalf", "Valinor", "Sauron", "Galadriel", "Balrog", "Gondor", "Rohan", "Moria", "Shire", "Baggins", "Gollum", "Frodo", "Orc", "Troll", "Dwarf", "Fellowship", "Aragorn", "Boromir", "Legolas",
-"Merry", "Pippin", "Sam"];
+  "Merry", "Pippin", "Sam"
+];
 
 var word;
 var userguess;
 var answerarray = [];
-var remainingguesses=10;
+var remainingguesses = 10;
 var startvar;
 var wins;
 var losses;
-var spaces;
-var picture;
+var spaces = document.getElementById('wordspaces');
+var picture = document.getElementById('pic');
 var remainingletters;
 var newgame;
+var currentalphabet;
+var alphabetspaces = document.getElementById('Letters');
 
 
-function chooseword (){
+
+function chooseword() {
+  word = "";
+  remainingletters = [];
   word = secretwords[Math.floor(Math.random() * secretwords.length)].toLowerCase();
-  // word = word.split("");
   remainingletters = word.length;
-  document.getElementById('Letters').innerHTML = alphabet.join(" ").toUpperCase();
+  console.log(word);
 
 };
 
-function returnblanks (){
-for (var i=0; i < word.length; i++){
-  answerarray[i] = "_";
-  spaces = document.getElementById('wordspaces');
-  spaces.innerHTML = answerarray.join(" ");
+function initalphabet() {
+  alphabetspaces.innerHTML= "";
+  alphabetspaces.innerHTML = currentalphabet.join(" ").toUpperCase();
 }
+
+function returnblanks() {
+
+  for (var i = 0; i < word.length; i++) {
+    answerarray[i] = "_";
+    spaces.innerHTML = answerarray.join(" ");
+  }
 };
 
-function compare () {
-for (var h=0; h < word.length; h++){
-  if (word[h] === userguess){
-    answerarray[h] = (userguess);
-    remainingletters--;
-    spaces.innerHTML = answerarray.join(" ").toUpperCase();
-    //possibly create another for loop in here comparing guess to answerarry to weed out duplicates?
+//FIGURE OUT DUPLICATES (user guesses 'P' twice)
+function compare() {
 
+  for (var h = 0; h < word.length; h++) {
+    if (word[h] === userguess) {
+      if (userguess === answerarray[h]){
+        alert("You already guessed " + userguess);
+        return;
       }
+      answerarray[h] = (userguess);
+      remainingletters--;
+      spaces.innerHTML = answerarray.join(" ").toUpperCase();
+
+      //possibly create another for loop in here comparing guess to answerarry to weed out duplicates?
     }
+  }
+
+  for (var k = 0; k < currentalphabet.length; k++){
+    if (currentalphabet[k] === userguess) {
+    currentalphabet[k] = ("__");
+    alphabetspaces.innerHTML = currentalphabet.join(" ").toUpperCase();
+  }
+  }
 };
 
-function alphabetdisplay (){
-for (var j=0; j < alphabet.length; j++){
-  if (alphabet[j] === userguess){
-    alphabet[j] = ("__");
-    document.getElementById('Letters').innerHTML = alphabet.join(" ").toUpperCase();
 
-  };// ends Alphabet if statement
-}; //ends Alphabet for loop
-};
 
-function start (){
-  remainingguesses = 10;
-  if (remainingguesses==0){
-
+function start() {
+  if (remainingguesses === 0) {
     losses++;
     return 3;
 
-  }
-   else if (remainingletters==0){
 
-      wins++;
-      return 2;
+  } else if (remainingletters ===0) {
+    wins++;
+    return 2;
+
   } else {
-
-
-    document.getElementById('gameStart').innerHTML= "Try to guess the word! You have " + remainingguesses + " guesses remaining!";
-
-
+    document.getElementById('gameStart').innerHTML = "Try to guess the word! You have " + remainingguesses + " guesses remaining!";
     return 1;
+
   }
 };
 
 
-
-function picture (){
-  // word.toString();
-  //I don't know why this doesn't return the correct image. It keeps saying it can't find the image through the filepath but I am pretty sure I did it right
-  picture=0;
-  if (word == "gandalf"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../assets/images/gandalf.jpg\">";
+function pictures() {
+  picture.innerHTML = ""
+  if (word == "gandalf") {
+    picture.innerHTML = "<img src=\"./assets/images/gandalf.jpg\">";
   }
-  if (word == "valinor"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/valinor.jpg\">";
+  if (word == "valinor") {
+    picture.innerHTML = "<img src=\"./assets/images/valinor.jpg\">";
   }
-  if (word == "sauron"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/sauron.jpg\">";
+  if (word == "sauron") {
+    picture.innerHTML = "<img src=\"./assets/images/sauron.jpg\">";
   }
-  if (word == "galadriel"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/galadriel.jpg\">";
+  if (word == "galadriel") {
+    picture.innerHTML = "<img src=\"./assets/images/galadriel.jpg\">";
   }
-  if (word == "balrog"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/balrog.jpg\">";
+  if (word == "balrog") {
+    picture.innerHTML = "<img src=\"./assets/images/balrog.jpg\">";
   }
-  if (word == "gondor"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/gondor.png\">";
+  if (word == "gondor") {
+    picture.innerHTML = "<img src=\"./assets/images/gondor.png\">";
   }
-  if (word == "rohan"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/rohan.jpg\">";
+  if (word == "rohan") {
+    picture.innerHTML = "<img src=\"./assets/images/rohan.jpg\">";
   }
-  if (word == "moria"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/moria.jpg\">";
+  if (word == "moria") {
+    picture.innerHTML = "<img src=\"./assets/images/moria.jpg\">";
   }
-  if (word == "shire"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/shire.jpg\">";
+  if (word == "shire") {
+    picture.innerHTML = "<img src=\"./assets/images/shire.jpg\">";
   }
-  if (word == "baggins"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/baggins.jpg\">";
+  if (word == "baggins") {
+    picture.innerHTML = "<img src=\"./assets/images/baggins.jpg\">";
   }
-  if (word == "gollum"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/gollum.jpg\">";
+  if (word == "gollum") {
+    picture.innerHTML = "<img src=\"./assets/images/gollum.jpg\">";
   }
-  if (word == "frodo"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/frodo.jpg\">";
+  if (word == "frodo") {
+    picture.innerHTML = "<img src=\"./assets/images/frodo.jpg\">";
   }
-  if (word == "orc"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/orc.jpg\">";
+  if (word == "orc") {
+    picture.innerHTML = "<img src=\"./assets/images/orc.jpg\">";
   }
-  if (word == "troll"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/troll.jpg\">";
+  if (word == "troll") {
+    picture.innerHTML = "<img src=\"./assets/images/troll.jpg\">";
   }
-  if (word == "dwarf"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/dwarf.jpg\">";
+  if (word == "dwarf") {
+    picture.innerHTML = "<img src=\"./assets/images/dwarf.jpg\">";
   }
-  if (word == "fellowship"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/fellowship.jpg\">";
+  if (word == "fellowship") {
+    picture.innerHTML = "<img src=\"./assets/images/fellowship.jpg\">";
 
   }
-  if (word == "aragorn"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/aragorn.jpg\">";
+  if (word == "aragorn") {
+
+    picture.innerHTML = "<img src=\"./assets/images/aragorn.jpg\">";
 
   }
-  if (word == "boromir"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/boromir.jpg\">";
+  if (word == "boromir") {
+    picture.innerHTML = "<img src=\"./assets/images/boromir.jpg\">";
 
   }
-  if (word == "legolas"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/legolas.jpg\">";
+  if (word == "legolas") {
+
+    picture.innerHTML = "<img src=\"./assets/images/legolas.jpg\">";
   }
-  if (word == "merry"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/merry.jpg\">";
+  if (word == "merry") {
+
+    picture.innerHTML = "<img src=\"./assets/images/merry.jpg\">";
 
   }
-  if (word == "pippin"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/pippin.jpg\">";
+  if (word == "pippin") {
+
+    picture.innerHTML = "<img src=\"./assets/images/pippin.jpg\">";
 
   }
-  if (word == "sam"){
-    picture=document.getElementById('pic')
-    picture.innerHTML= "<img src=\"../images/sam.jpg\">";
-
+  if (word == "sam") {
+    picture.innerHTML = "<img src=\"./assets/images/sam.jpg\">";
   }
 }
 
 
 
-function game () {
+function gameinit() {
+  picture.innerHTML="";
+  console.log("new game");
+  remainingguesses = 10;
+  currentalphabet = allletters.slice();
+  word = "";
+  answerarray =[];
+  spaces.innerHTML = "";
+  initalphabet();
+  chooseword();
+  returnblanks();
+}
 
 
-chooseword();
-returnblanks();
-
-newgame=0;
-document.onkeyup = function (event){
-
-    startvar= start();
-    start();
-    if (startvar==1){
-    userguess=event.key;
-    // console.log (answerarray);
-    // console.log (word);
-    //
-    // console.log (userguess);
-    // return event.key;
-
-
-    compare();
-    alphabetdisplay();
-
-
-
-  }
-
-    else if (startvar == 2){
-      // somehow, within these 2 conditions, I think the answer to how to reset the game lies. I just could not for the life of me figure it document
-      //I also have no idea where to even start in finding out why when you must press another key after the word is completed to show the gameover message
-
-      document.getElementById('gameover').innerHTML="Congratulations! You guessed correctly, your word was " + word +". Please press any key to start again!";
-      picture();
+function game() {
+  gameinit();
+  startvar = start();
+  document.onkeyup = function(event) {
+    startvar = start();
+    if (startvar == 1) {
+      remainingguesses--;
+      userguess = event.key;
+      compare();
+      console.log(answerarray);
+      console.log(remainingletters)
+      if(remainingletters === 0){
+        document.getElementById('gameover').innerHTML = "Congratulations! You guessed correctly, your word was " + word + ". Please press any key to start again!";
+        pictures();
+        gamestart();
+      }
+      start();
     }
-    else {
-      document.getElementById('gameover').innerHTML="Sorry, you have run out of guesses. Your word was " + word +". Please press any key to start again!";
-    };
+    //end conditions
+    else if (startvar == 3) {
+      document.getElementById('gameover').innerHTML = "Sorry, you have run out of guesses. Your word was " + word + ". Please press any key to start again!";
+      gamestart();
+    //if new game
+    } else {
+
+      start();
+      gamestart();
+
+    }
 
   };
 };
 
 
+//starts the game (press any key listener)
+function gamestart() {
+  document.onkeyup = function(event) {
+    game();
+  }
+}
 
 
-
-console.log (remainingguesses);
-
-
-
-window.onload=function(){
+// window.onload = function() {
 game();
-console.log (answerarray);
-
-console.log (userguess);
-};
 
 
-
-
-
-
-
-
-
-
-
-
-
-//       if (startvar==false){
-//
-//       }
-//
-// };
-//
 // };
